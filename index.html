@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dr. Mohammad Sarabian — Senior Research Scientist specializing in CFD, Physics-Informed AI, and Biomedical Engineering." />
+  <meta name="author" content="Mohammad Sarabian" />
+  <meta name="theme-color" content="#080d1a" />
+  <title>Mohammad Sarabian · CFD Scientist & AI Research Engineer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* === DESIGN SYSTEM === */
+    :root {
+      --bg-primary: #080d1a;
+      --bg-secondary: #0d1526;
+      --bg-card: #111d35;
+      --accent-cyan: #00e5ff;
+      --accent-teal: #00b4d8;
+      --accent-gold: #ffd166;
+      --text-primary: #f0f4ff;
+      --text-secondary: #8ba3c7;
+      --text-muted: #4a6080;
+      --border: rgba(0, 229, 255, 0.12);
+      --shadow-glow: 0 0 30px rgba(0, 229, 255, 0.15);
+      --radius: 12px;
+      --radius-sm: 6px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --max-width: 1100px;
+      --font-heading: 'DM Serif Display', serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    /* === RESET === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    ::selection { background: var(--accent-cyan); color: var(--bg-primary); }
+
+    /* === LAYOUT === */
+    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+    section { padding: 100px 0; position: relative; }
+    section:nth-of-type(even) { background: var(--bg-secondary); }
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 16px;
+      text-align: center;
+      letter-spacing: -0.02em;
+    }
+    .section-title .accent { color: var(--accent-cyan); }
+    .section-subtitle {
+      color: var(--text-secondary);
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 60px;
+      font-size: 1.05rem;
+    }
+
+    /* === NAV === */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 18px 24px;
+      transition: var(--transition);
+      background: transparent;
+      backdrop-filter: blur(0);
+    }
+    nav.scrolled {
+      background: rgba(8, 13, 26, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+    }
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      letter-spacing: -0.01em;
+    }
+    .nav-logo .dot { color: var(--accent-cyan); }
+    .nav-links { display: flex; gap: 28px; align-items: center; list-style: none; }
+    .nav-links a {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      transition: var(--transition);
+      position: relative;
+      font-weight: 500;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent-cyan); }
+    .nav-links a.active::after {
+      content: '';
+      position: absolute; bottom: -8px; left: 0; right: 0;
+      height: 2px; background: var(--accent-cyan);
+      border-radius: 2px;
+    }
+    .nav-toggle {
+      display: none;
+      font-size: 1.6rem;
+      color: var(--text-primary);
+    }
+
+    /* === HERO === */
+    #hero {
+      min-height: 100vh;
+      padding: 140px 0 60px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #particle-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      opacity: 0.65;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-left { animation: fadeUp 0.9s ease both; }
+    .hero-photo-wrap {
+      display: flex;
+      justify-content: center;
+      animation: fadeUp 0.9s ease 0.2s both;
+    }
+    .hero-photo {
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+      border: 3px solid var(--accent-cyan);
+      box-shadow: 0 0 50px rgba(0, 229, 255, 0.35), inset 0 0 30px rgba(0, 229, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-heading);
+      font-size: 5rem;
+      color: var(--accent-cyan);
+    }
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .hero-photo::before {
+      content: '';
+      position: absolute; inset: -3px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--accent-cyan), transparent, var(--accent-teal), transparent, var(--accent-cyan));
+      z-index: -1;
+      animation: rotate 8s linear infinite;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(0, 229, 255, 0.08);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+    .hero-badge .pulse {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent-cyan);
+      box-shadow: 0 0 10px var(--accent-cyan);
+      animation: pulse 1.6s infinite;
+    }
+
+    .hero-name {
+      font-family: var(--font-heading);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .hero-name .grad {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-subtitle {
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    .hero-tagline {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      max-width: 540px;
+    }
+
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 32px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: var(--transition);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn-primary {
+      background: var(--accent-cyan);
+      color: var(--bg-primary);
+      box-shadow: 0 4px 20px rgba(0, 229, 255, 0.25);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 28px rgba(0, 229, 255, 0.5);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      background: rgba(0, 229, 255, 0.05);
+    }
+
+    .hero-socials { display: flex; gap: 12px; }
+    .social-link {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+    .social-link:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+    }
+    .social-link svg { width: 18px; height: 18px; fill: currentColor; }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 30px; left: 50%;
+      transform: translateX(-50%);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      animation: bounce 2s ease-in-out infinite;
+      z-index: 1;
+    }
+    .scroll-indicator::after {
+      content: '';
+      display: block;
+      width: 1px; height: 30px;
+      background: linear-gradient(to bottom, var(--accent-cyan), transparent);
+      margin: 8px auto 0;
+    }
+
+    /* === ABOUT === */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 60px;
+      align-items: start;
+      margin-top: 20px;
+    }
+    .about-quote-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      position: sticky;
+      top: 100px;
+    }
+    .about-quote-card .quote-mark {
+      font-family: var(--font-heading);
+      font-size: 4rem;
+      color: var(--accent-cyan);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .about-quote-card blockquote {
+      font-style: italic;
+      color: var(--text-primary);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .about-quote-card cite {
+      display: block;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-style: normal;
+    }
+    .about-text { color: var(--text-secondary); font-size: 1.02rem; }
+    .about-text p { margin-bottom: 18px; }
+    .about-text strong { color: var(--text-primary); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 16px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .stat-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow);
+    }
+    .stat-num {
+      font-family: var(--font-heading);
+      font-size: 2.4rem;
+      color: var(--accent-cyan);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.85rem; color: var(--text-secondary); margin-top: 8px; }
+
+    .about-photos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .about-photo {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      display: flex; flex-direction: column;
+      transition: var(--transition);
+    }
+    .about-photo:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-3px);
+    }
+    .about-photo .photo-placeholder {
+      flex: 1;
+      background: linear-gradient(135deg, var(--bg-secondary), var(--bg-card));
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted);
+      font-size: 2rem;
+    }
+    .about-photo img { width: 100%; flex: 1; object-fit: cover; }
+    .about-photo .caption {
+      padding: 12px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    /* === EXPERIENCE TIMELINE === */
+    .timeline {
+      position: relative;
+      max-width: 980px;
+      margin: 40px auto 0;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-teal), transparent);
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      position: relative;
+      width: 50%;
+      padding: 24px 40px;
+      margin-bottom: 30px;
+    }
+    .timeline-item.left { left: 0; text-align: right; }
+    .timeline-item.right { left: 50%; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      top: 36px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--bg-primary);
+      border: 3px solid var(--accent-cyan);
+      box-shadow: 0 0 12px var(--accent-cyan);
+      z-index: 1;
+    }
+    .timeline-item.left::before { right: -8px; }
+    .timeline-item.right::before { left: -8px; }
+
+    .timeline-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid transparent;
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: var(--transition);
+    }
+    .timeline-item.right .timeline-card { border-left: 3px solid var(--accent-cyan); border-right: 1px solid var(--border); }
+    .timeline-item.left .timeline-card { border-right: 3px solid var(--accent-cyan); border-left: 1px solid var(--border); }
+    .timeline-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow);
+      border-color: var(--accent-cyan);
+    }
+    .timeline-logo {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
+      color: var(--bg-primary);
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+    }
+    .timeline-dates {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: var(--accent-gold);
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .timeline-title {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+    .timeline-company {
+      font-size: 0.95rem;
+      color: var(--accent-cyan);
+      margin-bottom: 4px;
+      font-weight: 500;
+    }
+    .timeline-location {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .timeline-desc {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      text-align: left;
+    }
+
+    /* === EDUCATION === */
+    .education-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .edu-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .edu-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-teal), var(--accent-gold));
+    }
+    .edu-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent-cyan);
+      box-shadow: var(--shadow-glow);
+    }
+    .edu-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+    .edu-degree {
+      font-family: var(--font-heading);
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+    .edu-field {
+      color: var(--accent-cyan);
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+    .edu-school { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 4px; }
+    .edu-year {
+      display: inline-block;
+      font-size: 0.8rem;
+      color: var(--accent-gold);
+      margin-top: 8px;
+      font-weight: 600;
+      padding: 3px 10px;
+      background: rgba(255, 209, 102, 0.1);
+      border-radius: 999px;
+    }
+    .edu-thesis {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .edu-advisors {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* === SKILLS === */
+    .competencies {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 60px;
+    }
+    .competency {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .competency:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow);
+    }
+    .competency-icon {
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .competency-title {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      color: var(--accent-cyan);
+      margin-bottom: 4px;
+    }
+    .competency-desc { font-size: 0.85rem; color: var(--text-secondary); }
+
+    .skill-category { margin-bottom: 36px; }
+    .skill-category-header {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .skill-category-header::before {
+      content: ''; width: 24px; height: 3px;
+      background: var(--accent-cyan);
+      border-radius: 2px;
+    }
+    .skill-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+    .skill-pill {
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      transition: var(--transition);
+      position: relative;
+    }
+    .skill-pill:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+    }
+    .skill-pill.expert {
+      border-color: rgba(0, 229, 255, 0.4);
+      color: var(--text-primary);
+    }
+    .skill-pill .level {
+      font-size: 0.7rem;
+      color: var(--accent-gold);
+      margin-left: 6px;
+      font-weight: 600;
+    }
+
+    /* === PUBLICATIONS === */
+    .pub-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 36px;
+    }
+    .pub-filter {
+      padding: 8px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .pub-filter:hover { color: var(--accent-cyan); border-color: var(--accent-cyan); }
+    .pub-filter.active {
+      background: var(--accent-cyan);
+      color: var(--bg-primary);
+      border-color: var(--accent-cyan);
+      font-weight: 600;
+    }
+
+    .pub-list { display: flex; flex-direction: column; gap: 18px; }
+    .pub-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: var(--transition);
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .pub-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-glow);
+    }
+    .pub-card.hidden { display: none; }
+    .pub-year {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      color: var(--accent-gold);
+      text-align: center;
+      padding: 12px 8px;
+      background: rgba(255, 209, 102, 0.08);
+      border-radius: var(--radius-sm);
+    }
+    .pub-title { font-size: 1.05rem; color: var(--text-primary); margin-bottom: 6px; font-weight: 600; line-height: 1.4; }
+    .pub-authors { font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 6px; }
+    .pub-authors .self { color: var(--accent-cyan); font-weight: 600; }
+    .pub-journal { font-style: italic; font-size: 0.92rem; color: var(--text-muted); margin-bottom: 12px; }
+    .pub-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .pub-tag {
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      background: rgba(0, 229, 255, 0.08);
+      color: var(--accent-cyan);
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .pub-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.88rem;
+      color: var(--accent-cyan);
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .pub-link:hover { gap: 10px; }
+
+    .scholar-cta { text-align: center; margin-bottom: 36px; }
+
+    .talks-list {
+      max-width: 760px;
+      margin: 60px auto 0;
+    }
+    .talks-heading {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .talk-item {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+      align-items: baseline;
+    }
+    .talk-venue { color: var(--accent-cyan); font-weight: 600; font-size: 0.9rem; white-space: nowrap; }
+    .talk-title { color: var(--text-secondary); font-size: 0.92rem; }
+
+    /* === CHATBOT === */
+    #chatbot {
+      background: var(--bg-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+    #chatbot::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(0, 229, 255, 0.08), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(0, 180, 216, 0.08), transparent 50%);
+      animation: drift 20s ease-in-out infinite;
+      pointer-events: none;
+    }
+    #chatbot .container { position: relative; z-index: 1; }
+    #chatbot-mount {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    /* === CONTACT === */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 50px;
+      margin-top: 40px;
+    }
+    .contact-cards { display: flex; flex-direction: column; gap: 14px; }
+    .contact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex; align-items: center; gap: 16px;
+      transition: var(--transition);
+    }
+    .contact-card:hover {
+      border-color: var(--accent-cyan);
+      transform: translateX(4px);
+    }
+    .contact-icon {
+      font-size: 1.6rem;
+      width: 48px; height: 48px;
+      background: rgba(0, 229, 255, 0.08);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+    .contact-value { font-size: 0.95rem; color: var(--text-primary); font-weight: 500; }
+
+    .contact-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+    }
+    .form-row { margin-bottom: 16px; }
+    .form-row.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+    .contact-form input:focus, .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.12);
+    }
+    .contact-form textarea { resize: vertical; min-height: 120px; }
+    .contact-form button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-teal));
+      color: var(--bg-primary);
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    .contact-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0, 229, 255, 0.4);
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--bg-primary);
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    footer .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    footer p { color: var(--text-muted); font-size: 0.88rem; }
+    .footer-socials { display: flex; gap: 12px; }
+
+    /* === REVEAL ANIMATIONS === */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* === KEYFRAMES === */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.5; }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0); }
+      50% { box-shadow: 0 0 20px 2px rgba(0, 229, 255, 0.15); }
+    }
+    @keyframes rotate {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-8px); }
+    }
+    @keyframes drift {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(20px, -20px); }
+    }
+
+    /* === MOBILE === */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+      .hero-tagline { margin-left: auto; margin-right: auto; }
+      .hero-ctas, .hero-socials { justify-content: center; }
+      .about-grid { grid-template-columns: 1fr; gap: 30px; }
+      .about-quote-card { position: relative; top: 0; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .education-grid { grid-template-columns: 1fr 1fr; }
+      .competencies { grid-template-columns: 1fr 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 70px 0; }
+      .nav-links {
+        position: fixed;
+        top: 0; right: 0; bottom: 0;
+        width: 75%; max-width: 320px;
+        background: var(--bg-secondary);
+        border-left: 1px solid var(--border);
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 80px 32px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        gap: 20px;
+      }
+      .nav-links.open { transform: translateX(0); }
+      .nav-links a { font-size: 1.05rem; }
+      .nav-toggle { display: block; z-index: 101; }
+
+      .hero-photo { width: 220px; height: 220px; font-size: 4rem; }
+      .education-grid { grid-template-columns: 1fr; }
+      .competencies { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .about-photos { grid-template-columns: 1fr; }
+
+      .timeline::before { left: 20px; }
+      .timeline-item { width: 100%; left: 0; padding: 14px 0 14px 50px; text-align: left; }
+      .timeline-item.left, .timeline-item.right { left: 0; text-align: left; }
+      .timeline-item::before { left: 12px; right: auto; }
+      .timeline-item.left .timeline-card,
+      .timeline-item.right .timeline-card {
+        border-left: 3px solid var(--accent-cyan);
+        border-right: 1px solid var(--border);
+      }
+
+      .pub-card { grid-template-columns: 60px 1fr; gap: 14px; padding: 18px; }
+      .pub-year { font-size: 1.2rem; padding: 8px 4px; }
+      .form-row.two-col { grid-template-columns: 1fr; }
+
+      .talk-item { grid-template-columns: 1fr; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === NAV === -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">Mohammad Sarabian<span class="dot">.</span></a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#publications">Research</a></li>
+        <li><a href="#chatbot">AI Assistant</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+
+  <!-- === HERO === -->
+  <section id="hero">
+    <canvas id="particle-canvas"></canvas>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-left">
+          <div class="hero-badge">
+            <span class="pulse"></span>
+            <span>Senior Research Scientist @ MIM Software (a GE HealthCare Company)</span>
+          </div>
+          <h1 class="hero-name">Mohammad <span class="grad">Sarabian</span></h1>
+          <p class="hero-subtitle">Pioneering CFD Scientist &amp; AI Research Engineer</p>
+          <p class="hero-tagline">Bridging Computational Fluid Dynamics, Physics-Informed AI, and Biomedical Innovation.</p>
+          <div class="hero-ctas">
+            <a href="#publications" class="btn btn-primary">View My Work →</a>
+            <a href="#chatbot" class="btn btn-secondary">🤖 Talk to My AI CV</a>
+          </div>
+          <div class="hero-socials">
+            <a href="https://www.linkedin.com/in/msarabian/" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24"><path d="M19 0h-14C2.2 0 0 2.2 0 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5V5c0-2.8-2.2-5-5-5zM8 19H5V8h3v11zM6.5 6.7C5.5 6.7 4.7 5.9 4.7 4.9s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM20 19h-3v-5.6c0-3.4-4-3.1-4 0V19h-3V8h3v1.8c1.4-2.6 7-2.8 7 2.5V19z"/></svg>
+            </a>
+            <a href="https://scholar.google.com/citations?user=r45Kw9sAAAAJ" target="_blank" rel="noopener" class="social-link" aria-label="Google Scholar">
+              <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/></svg>
+            </a>
+            <a href="https://github.com/sohrabsarabian" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+              <svg viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56 0-.27-.01-1-.02-1.96-3.2.69-3.87-1.54-3.87-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.04 11.04 0 015.79 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.25 5.69.41.35.78 1.05.78 2.11 0 1.53-.01 2.76-.01 3.13 0 .31.21.67.79.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg>
+            </a>
+            <a href="mailto:ms322615@ohio.edu" class="social-link" aria-label="Email">
+              <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="hero-photo-wrap">
+          <div class="hero-photo">
+            <img src="assets/profile.jpg" alt="Mohammad Sarabian" onerror="this.style.display='none'; this.parentNode.textContent='MS';" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">SCROLL</div>
+  </section>
+
+  <!-- === ABOUT === -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title reveal">About <span class="accent">Me</span></h2>
+      <p class="section-subtitle reveal">A decade at the intersection of mathematics, computation, and engineering.</p>
+
+      <div class="about-grid">
+        <div class="about-quote-card reveal">
+          <div class="quote-mark">"</div>
+          <blockquote>The future of engineering is computational, physics-informed, and intelligent. My work lives at that intersection.</blockquote>
+          <cite>— Dr. Mohammad Sarabian</cite>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-num" data-target="10" data-suffix="+">0</div>
+              <div class="stat-label">Years of Research</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num" data-target="15" data-suffix="+">0</div>
+              <div class="stat-label">Publications &amp; Talks</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num" data-target="3" data-suffix="">0</div>
+              <div class="stat-label">Patents &amp; Applications</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-num" data-target="1000" data-suffix="×">0</div>
+              <div class="stat-label">CFD Speedup via AI</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-text reveal">
+          <p><strong>Dr. Mohammad Sarabian</strong> is a Senior Research Scientist at MIM Software (a GE HealthCare Company), specializing in the intersection of computational fluid dynamics, physics-informed AI, and biomedical engineering. With a PhD in Mechanical Engineering from Ohio University and postdoctoral training at the University of Arizona, he has spent over a decade developing cutting-edge mathematical and computational frameworks that drive innovation across diverse engineering fields.</p>
+
+          <p>His work spans <strong>AI-driven digital twins</strong> for cardiovascular disease, <strong>cerebrovascular hemodynamic modeling</strong>, <strong>Nitinol medical device simulation</strong>, and <strong>surrogate modeling for subsurface flows</strong>. He has published in top-tier journals including <em>IEEE Transactions on Medical Imaging</em>, <em>Journal of Fluid Mechanics</em>, and <em>Acta Biomaterialia</em>, and has presented at the American Physical Society's Division of Fluid Dynamics (APS-DFD) annually.</p>
+
+          <p>Currently, his research focuses on integrating physics-informed methods into clinical imaging pipelines, where mathematical rigor and machine learning combine to deliver measurable impact in diagnostics and treatment planning.</p>
+
+          <div class="about-photos">
+            <div class="about-photo">
+              <img src="assets/aps2022.jpg" alt="APS-DFD 2022" loading="lazy" onerror="this.outerHTML='<div class=&quot;photo-placeholder&quot;>🎤</div>';" />
+              <div class="caption">APS-DFD 2022, Indianapolis, IN</div>
+            </div>
+            <div class="about-photo">
+              <img src="assets/aps2023.jpg" alt="APS-DFD 2023" loading="lazy" onerror="this.outerHTML='<div class=&quot;photo-placeholder&quot;>🎤</div>';" />
+              <div class="caption">APS-DFD 2023, Washington, DC</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- === EXPERIENCE === -->
+  <section id="experience">
+    <div class="container">
+      <h2 class="section-title reveal">Work <span class="accent">Experience</span></h2>
+      <p class="section-subtitle reveal">A career spanning industry research labs, top academic institutions, and AI startups.</p>
+
+      <div class="timeline">
+        <div class="timeline-item right reveal">
+          <div class="timeline-card">
+            <div class="timeline-logo">MS</div>
+            <div class="timeline-dates">JUN 2026 – PRESENT</div>
+            <h3 class="timeline-title">Senior Research Scientist</h3>
+            <div class="timeline-company">MIM Software · a GE HealthCare Company</div>
+            <div class="timeline-location">📍 Remote — Scottsdale, AZ</div>
+            <p class="timeline-desc">Medical image-based AI research, computational modeling for clinical workflows, and integration of physics-informed methods into diagnostic imaging pipelines.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item left reveal">
+          <div class="timeline-card">
+            <div class="timeline-logo">WG</div>
+            <div class="timeline-dates">MAR 2023 – JUN 2026</div>
+            <h3 class="timeline-title">Senior Modeling &amp; Simulation Scientist — CFD</h3>
+            <div class="timeline-company">W.L. Gore &amp; Associates (Gore Medical)</div>
+            <div class="timeline-location">📍 Scottsdale, AZ</div>
+            <p class="timeline-desc">Developed innovative CFD models for medical device optimization (cardiovascular and cerebrovascular devices). Created mathematical surrogate models enabling rapid design assessment. Built Nitinol constitutive modeling platforms (Streamlit-based) supporting multiple material models (SuperE32, SuperEP33, SuperEP35 Anisotropic).</p>
+          </div>
+        </div>
+
+        <div class="timeline-item right reveal">
+          <div class="timeline-card">
+            <div class="timeline-logo">OG</div>
+            <div class="timeline-dates">MAR 2022 – MAR 2023</div>
+            <h3 class="timeline-title">Artificial Intelligence (AI) Researcher</h3>
+            <div class="timeline-company">OriGen.AI, Inc.</div>
+            <div class="timeline-location">📍 New York, NY (Remote)</div>
+            <p class="timeline-desc">Pioneered physics-inspired AI frameworks to accelerate CFD simulations of multiphase porous media. Developed novel PINN surrogate models for assisted history matching (AHM). Built CNN + Transformer networks for subsurface flow prediction.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item left reveal">
+          <div class="timeline-card">
+            <div class="timeline-logo">UA</div>
+            <div class="timeline-dates">MAR 2020 – MAR 2022</div>
+            <h3 class="timeline-title">Postdoctoral Research Associate</h3>
+            <div class="timeline-company">Dept. of Biomedical Engineering, University of Arizona</div>
+            <div class="timeline-location">📍 Tucson, AZ</div>
+            <p class="timeline-desc">Developed the Area Surrogate Physics-Informed Neural Network (AS-PINN) for cerebral blood flow hemodynamic prediction, validated against 4D flow MRI clinical data. Developed brain disease classification models.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item right reveal">
+          <div class="timeline-card">
+            <div class="timeline-logo">OU</div>
+            <div class="timeline-dates">2015 – MAR 2020</div>
+            <h3 class="timeline-title">Research Assistant / PhD Candidate</h3>
+            <div class="timeline-company">Dept. of Mechanical Engineering, Ohio University</div>
+            <div class="timeline-location">📍 Athens, OH</div>
+            <p class="timeline-desc">Experimental investigations and direct numerical simulations of rigid particles in shear flows of Newtonian and complex fluids. Developed custom PIV/PTV systems. Collaborated with Prof. Luca Brandt (KTH) on IBM-based solvers.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item left reveal">
+          <div class="timeline-card">
+            <div class="timeline-logo">SU</div>
+            <div class="timeline-dates">2007 – 2014</div>
+            <h3 class="timeline-title">Research Assistant / M.Sc. &amp; B.Sc. Student</h3>
+            <div class="timeline-company">Dept. of Mechanical Engineering, Shiraz University</div>
+            <div class="timeline-location">📍 Shiraz, Iran</div>
+            <p class="timeline-desc">Transonic compressor rotor CFD simulations, auto-ignition processes, and microchannel water-gas shift surface reactors.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- === EDUCATION === -->
+  <section id="education">
+    <div class="container">
+      <h2 class="section-title reveal">Education</h2>
+      <p class="section-subtitle reveal">Formal training across leading institutions in computational and experimental mechanics.</p>
+
+      <div class="education-grid">
+        <div class="edu-card reveal">
+          <div class="edu-icon">🎓</div>
+          <div class="edu-degree">Ph.D.</div>
+          <div class="edu-field">Mechanical Engineering</div>
+          <div class="edu-school">Ohio University · Athens, OH</div>
+          <span class="edu-year">2020</span>
+          <div class="edu-thesis">"Experimental Investigations and Numerical Simulations of Rigid Particles in Shear Flows of Newtonian and Complex Fluids."</div>
+          <div class="edu-advisors">Advisors: Dr. Sarah Hormozi (Cornell), Dr. Bloen Metzger (CNRS Marseille)</div>
+        </div>
+
+        <div class="edu-card reveal">
+          <div class="edu-icon">🎓</div>
+          <div class="edu-degree">M.Sc.</div>
+          <div class="edu-field">Mechanical Engineering</div>
+          <div class="edu-school">Shiraz University · Shiraz, Iran</div>
+          <span class="edu-year">2014</span>
+          <div class="edu-thesis">Focus: Computational methods, fluid dynamics.</div>
+        </div>
+
+        <div class="edu-card reveal">
+          <div class="edu-icon">🎓</div>
+          <div class="edu-degree">B.Sc.</div>
+          <div class="edu-field">Mechanical Engineering</div>
+          <div class="edu-school">Shiraz University · Shiraz, Iran</div>
+          <span class="edu-year">2011</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- === SKILLS === -->
+  <section id="skills">
+    <div class="container">
+      <h2 class="section-title reveal">Skills &amp; <span class="accent">Expertise</span></h2>
+      <p class="section-subtitle reveal">A multidisciplinary toolkit spanning mathematics, computation, AI, and engineering.</p>
+
+      <div class="competencies reveal">
+        <div class="competency">
+          <span class="competency-icon">🧮</span>
+          <div class="competency-title">Mathematical Modeling</div>
+          <div class="competency-desc">PDEs, surrogate models, scientific computing</div>
+        </div>
+        <div class="competency">
+          <span class="competency-icon">🌊</span>
+          <div class="competency-title">CFD</div>
+          <div class="competency-desc">Multiphase, turbulent, biomedical flows</div>
+        </div>
+        <div class="competency">
+          <span class="competency-icon">🧠</span>
+          <div class="competency-title">AI / ML</div>
+          <div class="competency-desc">PINNs, transformers, scientific ML</div>
+        </div>
+        <div class="competency">
+          <span class="competency-icon">🩺</span>
+          <div class="competency-title">Biomedical Engineering</div>
+          <div class="competency-desc">Cardiovascular, cerebrovascular, devices</div>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <h3 class="skill-category-header">Programming Languages</h3>
+        <div class="skill-pills">
+          <span class="skill-pill expert">Python<span class="level">EXPERT</span></span>
+          <span class="skill-pill expert">MATLAB<span class="level">EXPERT</span></span>
+          <span class="skill-pill expert">Fortran<span class="level">EXPERT</span></span>
+          <span class="skill-pill">Java</span>
+          <span class="skill-pill">C/C++</span>
+          <span class="skill-pill">Bash</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <h3 class="skill-category-header">AI / Machine Learning</h3>
+        <div class="skill-pills">
+          <span class="skill-pill expert">PyTorch<span class="level">EXPERT</span></span>
+          <span class="skill-pill">TensorFlow / Keras</span>
+          <span class="skill-pill expert">PINNs<span class="level">EXPERT</span></span>
+          <span class="skill-pill">Scientific ML (SciML)</span>
+          <span class="skill-pill">Operator Learning</span>
+          <span class="skill-pill">Reinforcement Learning</span>
+          <span class="skill-pill">Transformers</span>
+          <span class="skill-pill">Autoencoders</span>
+          <span class="skill-pill">CNNs</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <h3 class="skill-category-header">CFD &amp; Simulation Software</h3>
+        <div class="skill-pills">
+          <span class="skill-pill expert">STAR-CCM+<span class="level">EXPERT</span></span>
+          <span class="skill-pill">ANSYS Fluent / CFX</span>
+          <span class="skill-pill">OpenFOAM</span>
+          <span class="skill-pill">COMSOL Multiphysics</span>
+          <span class="skill-pill">Abaqus / Explicit</span>
+          <span class="skill-pill">VUMAT Subroutines</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <h3 class="skill-category-header">Experimental Techniques</h3>
+        <div class="skill-pills">
+          <span class="skill-pill">Particle Image Velocimetry (PIV)</span>
+          <span class="skill-pill">Particle Tracking Velocimetry (PTV)</span>
+          <span class="skill-pill">Refractive Index Matching (RIM)</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <h3 class="skill-category-header">High-Performance Computing</h3>
+        <div class="skill-pills">
+          <span class="skill-pill">Domain Decomposition</span>
+          <span class="skill-pill">MPI</span>
+          <span class="skill-pill">OpenMP</span>
+          <span class="skill-pill">SLURM</span>
+          <span class="skill-pill">HPC Clusters</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <h3 class="skill-category-header">Other Tools</h3>
+        <div class="skill-pills">
+          <span class="skill-pill">Git / GitHub</span>
+          <span class="skill-pill">Docker</span>
+          <span class="skill-pill">LaTeX</span>
+          <span class="skill-pill">Streamlit</span>
+          <span class="skill-pill">Maven / JPype</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- === PUBLICATIONS === -->
+  <section id="publications">
+    <div class="container">
+      <h2 class="section-title reveal">Publications &amp; <span class="accent">Research</span></h2>
+      <p class="section-subtitle reveal">Peer-reviewed work in top-tier journals at the intersection of CFD, AI, and biomedical engineering.</p>
+
+      <div class="scholar-cta reveal">
+        <a href="https://scholar.google.com/citations?user=r45Kw9sAAAAJ" target="_blank" rel="noopener" class="btn btn-secondary">📚 Full Publication List on Google Scholar →</a>
+      </div>
+
+      <div class="pub-filters reveal">
+        <button class="pub-filter active" data-filter="all">All</button>
+        <button class="pub-filter" data-filter="cfd">CFD</button>
+        <button class="pub-filter" data-filter="aiml">AI/ML</button>
+        <button class="pub-filter" data-filter="biomedical">Biomedical</button>
+        <button class="pub-filter" data-filter="experimental">Experimental</button>
+      </div>
+
+      <div class="pub-list">
+        <div class="pub-card reveal" data-tags="biomedical aiml">
+          <div class="pub-year">2024</div>
+          <div>
+            <div class="pub-title">Reconstructing Blood Flow in Data-Poor Regimes: A Vasculature Network Kernel for Gaussian Process Regression</div>
+            <div class="pub-authors">Ashtiani, S.Z., <span class="self">Sarabian, M.</span>, Laksari, K., &amp; Babaee, H.</div>
+            <div class="pub-journal">Journal of the Royal Society Interface (In Press)</div>
+            <div class="pub-tags">
+              <span class="pub-tag">Biomedical</span>
+              <span class="pub-tag">AI/ML</span>
+            </div>
+            <a href="https://arxiv.org/abs/2403.09758" target="_blank" rel="noopener" class="pub-link">Read Paper →</a>
+          </div>
+        </div>
+
+        <div class="pub-card reveal" data-tags="cfd aiml">
+          <div class="pub-year">Pre­print</div>
+          <div>
+            <div class="pub-title">FV-FluidAttentionNet: A Label-Free Physics-Informed Autoencoder with Finite-Volume Discretization for Rapid Navier-Stokes Solutions</div>
+            <div class="pub-authors"><span class="self">Sarabian, M.</span> et al.</div>
+            <div class="pub-journal">Preprint — Coming Soon</div>
+            <div class="pub-tags">
+              <span class="pub-tag">CFD</span>
+              <span class="pub-tag">AI/ML</span>
+            </div>
+            <a href="#" class="pub-link">Coming Soon →</a>
+          </div>
+        </div>
+
+        <div class="pub-card reveal" data-tags="aiml biomedical">
+          <div class="pub-year">2023</div>
+          <div>
+            <div class="pub-title">Elasticity Imaging Using Physics-Informed Neural Networks: Spatial Discovery of Elastic Modulus and Poisson's Ratio</div>
+            <div class="pub-authors">Kamali, A.*, <span class="self">Sarabian, M.*</span> et al. <em>(Equal contribution)</em></div>
+            <div class="pub-journal">Acta Biomaterialia, 2023</div>
+            <div class="pub-tags">
+              <span class="pub-tag">AI/ML</span>
+              <span class="pub-tag">Biomedical</span>
+            </div>
+            <a href="https://doi.org/10.1016/j.actbio.2022.11.024" target="_blank" rel="noopener" class="pub-link">Read Paper →</a>
+          </div>
+        </div>
+
+        <div class="pub-card reveal" data-tags="aiml biomedical">
+          <div class="pub-year">2022</div>
+          <div>
+            <div class="pub-title">Physics-Informed Neural Networks for Brain Hemodynamic Predictions Using Medical Imaging</div>
+            <div class="pub-authors"><span class="self">Sarabian, M.</span>, Babaee, B., &amp; Laksari, K.</div>
+            <div class="pub-journal">IEEE Transactions on Medical Imaging, 41(9), 2285–2303</div>
+            <div class="pub-tags">
+              <span class="pub-tag">AI/ML</span>
+              <span class="pub-tag">Biomedical</span>
+            </div>
+            <a href="https://ieeexplore.ieee.org/abstract/document/9740143" target="_blank" rel="noopener" class="pub-link">Read Paper →</a>
+          </div>
+        </div>
+
+        <div class="pub-card reveal" data-tags="cfd experimental">
+          <div class="pub-year">2020</div>
+          <div>
+            <div class="pub-title">Numerical Simulations of a Sphere Settling in Simple Shear Flows of Yield Stress Fluids</div>
+            <div class="pub-authors"><span class="self">Sarabian, M.</span>, Rosti, M.E., Brandt, L., &amp; Hormozi, S.</div>
+            <div class="pub-journal">Journal of Fluid Mechanics, 896, A17</div>
+            <div class="pub-tags">
+              <span class="pub-tag">CFD</span>
+              <span class="pub-tag">Experimental</span>
+            </div>
+            <a href="https://doi.org/10.1017/jfm.2020.316" target="_blank" rel="noopener" class="pub-link">Read Paper →</a>
+          </div>
+        </div>
+
+        <div class="pub-card reveal" data-tags="cfd experimental">
+          <div class="pub-year">2019</div>
+          <div>
+            <div class="pub-title">Fully Developed and Transient Concentration Profiles of Particulate Suspensions Sheared in a Cylindrical Couette Cell</div>
+            <div class="pub-authors"><span class="self">Sarabian, M.</span>, Firouznia, M., Metzger, B., &amp; Hormozi, S.</div>
+            <div class="pub-journal">Journal of Fluid Mechanics, 862, 659–671</div>
+            <div class="pub-tags">
+              <span class="pub-tag">CFD</span>
+              <span class="pub-tag">Experimental</span>
+            </div>
+            <a href="https://doi.org/10.1017/jfm.2018.971" target="_blank" rel="noopener" class="pub-link">Read Paper →</a>
+          </div>
+        </div>
+
+        <div class="pub-card reveal" data-tags="cfd">
+          <div class="pub-year">2018</div>
+          <div>
+            <div class="pub-title">[Cover] Computational Modeling of Multiphase Viscoelastic and Elastoviscoplastic Flows</div>
+            <div class="pub-authors">Izbassarov, D., Rosti, M.E., ..., <span class="self">Sarabian, M.</span>, Hormozi, S. et al.</div>
+            <div class="pub-journal">International Journal for Numerical Methods in Fluids, 88(12), 521–543</div>
+            <div class="pub-tags">
+              <span class="pub-tag">CFD</span>
+            </div>
+            <a href="https://onlinelibrary.wiley.com/doi/abs/10.1002/fld.4678" target="_blank" rel="noopener" class="pub-link">Read Paper →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="talks-list reveal">
+        <h3 class="talks-heading">Selected Talks &amp; Presentations</h3>
+        <div class="talk-item">
+          <div class="talk-venue">APS-DFD 2023</div>
+          <div class="talk-title">Particle-resolved simulations of wall effect on sedimentation · Washington, DC</div>
+        </div>
+        <div class="talk-item">
+          <div class="talk-venue">APS-DFD 2022</div>
+          <div class="talk-title">Finite PINN Net for 3D transient Darcy flows in porous media · Indianapolis, IN</div>
+        </div>
+        <div class="talk-item">
+          <div class="talk-venue">APS-DFD 2021</div>
+          <div class="talk-title">Brain hemodynamic predictions using PINNs · Phoenix, AZ</div>
+        </div>
+        <div class="talk-item">
+          <div class="talk-venue">APS-DFD 2019</div>
+          <div class="talk-title">Sphere settling in shear flows of yield-stress fluids · Seattle, WA</div>
+        </div>
+        <div class="talk-item">
+          <div class="talk-venue">APS-DFD 2018</div>
+          <div class="talk-title">Interface-resolved simulations in elastoviscoplastic fluids · Atlanta, GA</div>
+        </div>
+        <div class="talk-item">
+          <div class="talk-venue">U of Arizona</div>
+          <div class="talk-title">Physics-Inspired AI in Biomedical Engineering · BME Seminar, Feb 2022</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- === CHATBOT === -->
+  <section id="chatbot">
+    <div class="container">
+      <h2 class="section-title reveal">🤖 Talk to My <span class="accent">AI Research Assistant</span></h2>
+      <p class="section-subtitle reveal">Ask anything about my career, publications, skills, or research interests.</p>
+      <div id="chatbot-mount" class="reveal"></div>
+    </div>
+  </section>
+
+  <!-- === CONTACT === -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title reveal">Let's <span class="accent">Connect</span></h2>
+      <p class="section-subtitle reveal">Whether you're interested in research collaboration, speaking opportunities, or just want to discuss the latest in AI-driven CFD — I'd love to hear from you.</p>
+
+      <div class="contact-grid">
+        <div class="contact-cards reveal">
+          <a href="mailto:ms322615@ohio.edu" class="contact-card">
+            <div class="contact-icon">📧</div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value">ms322615@ohio.edu</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/msarabian/" target="_blank" rel="noopener" class="contact-card">
+            <div class="contact-icon">💼</div>
+            <div>
+              <div class="contact-label">LinkedIn</div>
+              <div class="contact-value">linkedin.com/in/msarabian</div>
+            </div>
+          </a>
+          <a href="https://scholar.google.com/citations?user=r45Kw9sAAAAJ" target="_blank" rel="noopener" class="contact-card">
+            <div class="contact-icon">🎓</div>
+            <div>
+              <div class="contact-label">Google Scholar</div>
+              <div class="contact-value">View publications</div>
+            </div>
+          </a>
+          <div class="contact-card">
+            <div class="contact-icon">📍</div>
+            <div>
+              <div class="contact-label">Location</div>
+              <div class="contact-value">Scottsdale, Arizona</div>
+            </div>
+          </div>
+        </div>
+
+        <form class="contact-form reveal" action="https://formspree.io/f/mo.sarabian@gmail.com" method="POST">
+          <div class="form-row two-col">
+            <input type="text" name="name" placeholder="Your Name" required />
+            <input type="email" name="email" placeholder="Your Email" required />
+          </div>
+          <div class="form-row">
+            <input type="text" name="subject" placeholder="Subject" />
+          </div>
+          <div class="form-row">
+            <textarea name="message" placeholder="Your message..." rows="5" required></textarea>
+          </div>
+          <button type="submit">Send Message →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- === FOOTER === -->
+  <footer>
+    <div class="footer-inner">
+      <p>© 2026 Mohammad Sarabian · Built with ❤️ and pure HTML/CSS/JS</p>
+      <div class="footer-socials">
+        <a href="https://www.linkedin.com/in/msarabian/" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M19 0h-14C2.2 0 0 2.2 0 5v14c0 2.8 2.2 5 5 5h14c2.8 0 5-2.2 5-5V5c0-2.8-2.2-5-5-5zM8 19H5V8h3v11zM6.5 6.7C5.5 6.7 4.7 5.9 4.7 4.9s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM20 19h-3v-5.6c0-3.4-4-3.1-4 0V19h-3V8h3v1.8c1.4-2.6 7-2.8 7 2.5V19z"/></svg>
+        </a>
+        <a href="https://scholar.google.com/citations?user=r45Kw9sAAAAJ" target="_blank" rel="noopener" class="social-link" aria-label="Google Scholar">
+          <svg viewBox="0 0 24 24"><path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3z"/></svg>
+        </a>
+        <a href="mailto:ms322615@ohio.edu" class="social-link" aria-label="Email">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- === SCRIPTS === -->
+  <script>
+    // ===== Nav scroll behavior =====
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) navbar.classList.add('scrolled');
+      else navbar.classList.remove('scrolled');
+    });
+
+    // ===== Mobile nav toggle =====
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      navToggle.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+    });
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.textContent = '☰';
+    }));
+
+    // ===== Active section in nav =====
+    const sections = document.querySelectorAll('section[id]');
+    const navAnchors = document.querySelectorAll('.nav-links a');
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          navAnchors.forEach(a => {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    sections.forEach(s => navObserver.observe(s));
+
+    // ===== Scroll reveal =====
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ===== Animated stat counters =====
+    const statObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.target, 10);
+          const suffix = el.dataset.suffix || '';
+          const duration = 1600;
+          const startTime = performance.now();
+          const step = (now) => {
+            const t = Math.min((now - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - t, 3);
+            const val = Math.round(target * eased);
+            el.textContent = val + suffix;
+            if (t < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+          statObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.stat-num').forEach(el => statObserver.observe(el));
+
+    // ===== Publication filter =====
+    const filterBtns = document.querySelectorAll('.pub-filter');
+    const pubCards = document.querySelectorAll('.pub-card');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const f = btn.dataset.filter;
+        pubCards.forEach(card => {
+          const tags = card.dataset.tags || '';
+          if (f === 'all' || tags.includes(f)) card.classList.remove('hidden');
+          else card.classList.add('hidden');
+        });
+      });
+    });
+
+    // ===== Particle canvas =====
+    (function particleCanvas() {
+      const canvas = document.getElementById('particle-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let w = 0, h = 0;
+      let rafId = null;
+      let paused = false;
+
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const rect = canvas.getBoundingClientRect();
+        w = rect.width; h = rect.height;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function initParticles() {
+        particles = [];
+        const count = window.innerWidth < 768 ? 40 : 80;
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.random() - 0.5) * 0.4,
+            r: Math.random() * 1.6 + 0.6
+          });
+        }
+      }
+
+      function draw() {
+        if (paused) { rafId = requestAnimationFrame(draw); return; }
+        ctx.clearRect(0, 0, w, h);
+
+        for (let p of particles) {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0 || p.x > w) p.vx *= -1;
+          if (p.y < 0 || p.y > h) p.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(0, 229, 255, 0.6)';
+          ctx.fill();
+        }
+
+        const maxDist = 120;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const a = particles[i], b = particles[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const d = Math.sqrt(dx*dx + dy*dy);
+            if (d < maxDist) {
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.strokeStyle = `rgba(0, 229, 255, ${0.18 * (1 - d/maxDist)})`;
+              ctx.lineWidth = 0.6;
+              ctx.stroke();
+            }
+          }
+        }
+        rafId = requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', () => { resize(); initParticles(); });
+      document.addEventListener('visibilitychange', () => { paused = document.hidden; });
+
+      resize();
+      initParticles();
+      draw();
+    })();
+  </script>
+
+  <script src="chatbot.js"></script>
+</body>
+</html>
